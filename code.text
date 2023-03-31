@@ -1,0 +1,70 @@
+package main
+import (
+    "fmt"
+    "unicode"
+)
+func Data(str string) {
+    var start []string
+    var end []string
+    startIndex := 0
+    endIndex := 0
+    count := 0
+    for i, c := range str {
+        if unicode.IsUpper(c) {
+            if count == 0 {
+                startIndex = i
+                count++
+            } else if count == 1 {
+                endIndex = i
+                break
+            }
+        }
+    }
+    temp1 := ""
+    for k := endIndex; k < len(str); k++ {
+        temp1 += string(str[k])
+        end = append(end, temp1)
+    }
+    temp1 = ""
+    for k := startIndex; k < endIndex; k++ {
+        temp1 += string(str[k])
+        start = append(start, temp1)
+    }
+    x := len(start)
+    y := len(end)
+    max := 0
+    if x >= y {
+        max = x
+    } else {
+        max = y
+    }
+    for i := 0; i < max; i++ {
+        temp := ""
+        if len(start) <= i {
+            temp = start[len(start)-1] + end[i]
+        } else if len(end) <= i {
+            temp = start[i] + end[len(end)-1]
+        } else {
+            temp = start[i] + end[i]
+        }
+        fmt.Println(ToUpper(temp))
+    }
+}
+func ToUpper(s string) string {
+   b := []byte(s)
+   for i, c := range b {
+      if c >= 'a' && c <= 'z' {
+         b[i] = c - ('a' - 'A')
+      }
+   }
+   return string(b)
+}
+
+func main() {
+    str1 := "HashAgile"
+    str2 := "BreakingBad"
+    str3 := "TitTat"
+    Data(str1)
+    Data(str2)
+    Data(str3)
+}
